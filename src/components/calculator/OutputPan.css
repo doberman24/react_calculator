@@ -1,0 +1,20 @@
+.output-result {
+    background: linear-gradient(180deg, #72b7be, #84cfd6, #8ddee7, #84cfd6, #72b7be);
+    width: 100%;
+    height: 180px;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+    
+  .display {
+    font-family: 'Orbitron', sans-serif;
+    color: #353535;
+    font-size: 40px;
+    width: 90%;
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
