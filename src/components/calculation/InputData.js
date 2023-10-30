@@ -1,92 +1,98 @@
 const InputData = (outputValue, selectValue) => {
 
-
+    const lastOutputValue = outputValue[outputValue.length - 1];
     if (typeof(selectValue) === 'number' || selectValue === '.') {
-        if (outputValue.length === 0 && outputValue[0] !== 0 && selectValue === '.') {
+        if (outputValue.length === 0 && outputValue[0] !== 0 
+            && selectValue === '.' ) {
             outputValue = [0, '.']
-        } else if (outputValue[0] !== 0 || (outputValue[0] === 0 && outputValue[1] === '.')) {
-            if (selectValue === '.' && !outputValue.some(item => item === '.')) {
+        } else if (typeof(lastOutputValue) !== 'number' 
+                    && lastOutputValue !== '.' && lastOutputValue !== ')'
+                    && selectValue === '.') {
+            outputValue = [...outputValue, 0, selectValue];
+        } else if (typeof(lastOutputValue) !== 'number' 
+            && lastOutputValue === ')' 
+            && selectValue === '.') {
+            outputValue = [...outputValue, '×', 0, selectValue];
+        } else if (outputValue[0] !== 0 
+                   || (outputValue[0] === 0 && outputValue[1] === '.')) {
+            if (selectValue === '.' && setPoint(outputValue)) {
                 outputValue = [...outputValue, '.'];    
+            } 
+            else if ((lastOutputValue === ')' || lastOutputValue === '%') 
+                     && selectValue !== '.') {
+                outputValue = [...outputValue, '×', selectValue];
             } else if (selectValue !== '.') {
                 outputValue = [...outputValue, selectValue];
             }
         }
     } else {
-        const operator = OutOperator(selectValue, outputValue);
-        if ((typeof(outputValue[outputValue.length - 1]) === 'number'
-            || outputValue[outputValue.length - 1] === ')') && operator === '(') {
-            outputValue = [...outputValue, '×', operator];    
-        } else if (typeof(outputValue[outputValue.length - 1]) === 'number'
-                  || outputValue[outputValue.length - 1] === ')' || operator === '(') {
+        // const operator = OutOperator(selectValue, outputValue);
+        let operator = selectValue;
+        if (operator === '( )') {
+            operator = setBrackets(selectValue, outputValue);
+        }
+        
+        if ((typeof(lastOutputValue) === 'number'   
+            || lastOutputValue === ')' || lastOutputValue === '.' || lastOutputValue === '%')
+            && (operator === '(' || operator === '√')) {
+            outputValue = [...outputValue, '×', operator];
+        } else if (typeof(lastOutputValue) === 'number'
+                  || lastOutputValue === ')' || operator === '(' 
+                  || lastOutputValue === '.' || operator === '√') {
             outputValue = [...outputValue, operator];
         }
     }
-    // console.log(outputValue);
+
+
+    console.log(outputValue);
 
     return outputValue;
 }
 
-const OutOperator = (operator, value) => {
-    switch (operator) {
-        case '÷':
-        case '×':
-        case '−':
-        case '+':
-            operator = `${operator}`;    
+
+
+
+
+const setPoint = (outputValue) => {
+    let point = true;
+    for (let i = outputValue.length - 1; i > 0; i--) {
+        if (outputValue[i] === '.') {
+            point = false;
             break;
-        case '√':
-            operator = `${operator}(`;
+        } else if (typeof(outputValue[i]) !== 'number') {
+            point = true;
             break;
-        case '( )':
-            operator = setBrackets(operator, value);
-            // value.length === 0 ? `${'('}` : `${')'}`;
-            break;
-        default:
-            break;
+        }
     }
-    return operator;
+    return point;
 }
 
-const setBrackets = (bracket, values) => {
-    let brackets = [];
-    console.log(bracket);
-    for (let value of values) {
+
+const setBrackets = (bracket, inputValues) => {
+    let listBrackets = [];
+    for (let value of inputValues) {
         if (value === '(' || value === ')') {
-            brackets = [...brackets, value];
+            listBrackets = [...listBrackets, value];
         }
     }
 
-    if ((values.length === 0 || typeof(values[values.length - 1]) !== 'number')
-    || (values.length > 0 && typeof(values[values.length - 1]) === 'number' 
-    && ((brackets.length > 0 && brackets[brackets.length - 1] === ')') 
-    || brackets.length === 0)) ) {
-        bracket = '(';
-    } else {
+    const listOpenBrack = listBrackets.filter((item) => {
+        return item === '(';
+    })
+    const listCloseBrack = listBrackets.filter((item) => {
+        return item === ')';
+    })
+
+    const lenValues = inputValues.length;
+    const lastOutputValue = inputValues[inputValues.length - 1];
+
+    if ((lenValues !== 0  
+        && (typeof(lastOutputValue) === 'number' || lastOutputValue === ')' || lastOutputValue === '.')
+        && listOpenBrack.length > listCloseBrack.length)) {
         bracket = ')';
+    } else {
+        bracket = '(';
     }
-
-    
-    
-    
-    // brackets = [...brackets, bracket]
-
-    // const openBrack = brackets.filter((item) => {
-    //     return item === '(';
-    // })
-    // const closeBrack = brackets.filter((item) => {
-    //     return item === ')';
-    // })
-
-    // if (openBrack.length > closeBrack.length) {
-    //     bracket = ')'
-    // } else if (openBrack.length < closeBrack.length) {
-    //     bracket = '('
-    // }
-
-    // console.log(openBrack.length, closeBrack.length);
-    
-    
-    
 
     return bracket;
 }
