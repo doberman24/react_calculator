@@ -1,5 +1,8 @@
+import { number } from "mathjs";
+
 const InputData = (outputValue, selectValue) => {
 
+    outputValue = getCorrectOutputValue(outputValue);
     const lastOutputValue = outputValue[outputValue.length - 1];
     if (typeof(selectValue) === 'number' || selectValue === '.') {
         if (outputValue.length === 0 && outputValue[0] !== 0 
@@ -26,7 +29,6 @@ const InputData = (outputValue, selectValue) => {
             }
         }
     } else {
-        // const operator = OutOperator(selectValue, outputValue);
         let operator = selectValue;
         if (operator === '( )') {
             operator = setBrackets(selectValue, outputValue);
@@ -36,21 +38,15 @@ const InputData = (outputValue, selectValue) => {
             || lastOutputValue === ')' || lastOutputValue === '.' || lastOutputValue === '%')
             && (operator === '(' || operator === '√')) {
             outputValue = [...outputValue, '×', operator];
-        } else if (typeof(lastOutputValue) === 'number'
-                  || lastOutputValue === ')' || operator === '(' 
-                  || lastOutputValue === '.' || operator === '√') {
+        } else if ((typeof(lastOutputValue) === 'number' 
+                  || lastOutputValue === ')' || lastOutputValue === '.' || lastOutputValue === '%'
+                  || operator === '(' || operator === '√') && lastOutputValue !== '√') {
             outputValue = [...outputValue, operator];
         }
     }
-
-
     console.log(outputValue);
-
     return outputValue;
 }
-
-
-
 
 
 const setPoint = (outputValue) => {
@@ -66,6 +62,17 @@ const setPoint = (outputValue) => {
     }
     return point;
 }
+
+const getCorrectOutputValue = (outputValue) =>
+    outputValue = outputValue.map(item => {
+        try {
+            return number(item);    
+        } catch (error) {
+            return item;
+        }
+    })
+
+
 
 
 const setBrackets = (bracket, inputValues) => {
