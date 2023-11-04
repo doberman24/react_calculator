@@ -9,11 +9,22 @@ function OutputPan({ outValueButton }) {
 }
 
 function Display({outValue = 0}) {
-    // console.log(outValue);
+    
+
+    let zeroOutValue = outValue.length === 0 ? 0 : outValue;
+    let sizeOutValue = {fontSize: '55px'};
+
+    if (outValue.length > 13) {
+        sizeOutValue = {fontSize: '40px'};
+    } 
+    if (outValue.length > 18) {
+        sizeOutValue = {fontSize: '30px'};
+    }
 
     return(
-        <div className='display'>{ outValue.length === 0 ? '0' : outValue }</div>
+        <div className='display' style={sizeOutValue}>{ zeroOutValue }</div>
     );
 }
+
 
 export default OutputPan

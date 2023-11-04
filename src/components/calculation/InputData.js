@@ -1,50 +1,50 @@
 import { number } from "mathjs";
 
+document.body.addEventListener('keydown', (event) => console.log(event));
+
+
 const InputData = (outputValue, selectValue) => {
+
+    let operator = selectValue;
+    if (operator === '( )') {
+        operator = setBrackets(selectValue, outputValue);
+    }
 
     outputValue = getCorrectOutputValue(outputValue);
     const lastOutputValue = outputValue[outputValue.length - 1];
-    if (typeof(selectValue) === 'number' || selectValue === '.') {
-        if (outputValue.length === 0 && outputValue[0] !== 0 
-            && selectValue === '.' ) {
+    if (selectValue === '.') {
+        if (outputValue.length === 0) {
             outputValue = [0, '.']
-        } else if (typeof(lastOutputValue) !== 'number' 
-                    && lastOutputValue !== '.' && lastOutputValue !== ')'
-                    && selectValue === '.') {
-            outputValue = [...outputValue, 0, selectValue];
-        } else if (typeof(lastOutputValue) !== 'number' 
-            && lastOutputValue === ')' 
-            && selectValue === '.') {
-            outputValue = [...outputValue, '×', 0, selectValue];
-        } else if (outputValue[0] !== 0 
-                   || (outputValue[0] === 0 && outputValue[1] === '.')) {
-            if (selectValue === '.' && setPoint(outputValue)) {
-                outputValue = [...outputValue, '.'];    
-            } 
-            else if ((lastOutputValue === ')' || lastOutputValue === '%') 
-                     && selectValue !== '.') {
-                outputValue = [...outputValue, '×', selectValue];
-            } else if (selectValue !== '.') {
-                outputValue = [...outputValue, selectValue];
+        } else if (typeof lastOutputValue !== 'number') {
+            if (lastOutputValue !== '.' && lastOutputValue !== ')') {
+                outputValue = [...outputValue, 0, selectValue];
+            } else if (lastOutputValue === ')') {
+                outputValue = [...outputValue, '×', 0, selectValue];
             }
+        } else if (setPoint(outputValue)) {
+            outputValue = [...outputValue, '.'];    
+        }
+    } else if (typeof selectValue === 'number') {
+        if (lastOutputValue === ')' || lastOutputValue === '%') {
+            outputValue = [...outputValue, '×', selectValue];
+        } else {
+            outputValue = [...outputValue, selectValue];
         }
     } else {
-        let operator = selectValue;
-        if (operator === '( )') {
-            operator = setBrackets(selectValue, outputValue);
-        }
-        
-        if ((typeof(lastOutputValue) === 'number'   
-            || lastOutputValue === ')' || lastOutputValue === '.' || lastOutputValue === '%')
-            && (operator === '(' || operator === '√')) {
-            outputValue = [...outputValue, '×', operator];
-        } else if ((typeof(lastOutputValue) === 'number' 
-                  || lastOutputValue === ')' || lastOutputValue === '.' || lastOutputValue === '%'
-                  || operator === '(' || operator === '√') && lastOutputValue !== '√') {
+
+        if (typeof lastOutputValue  === 'number' || lastOutputValue === ')' || lastOutputValue === '.' || lastOutputValue === '%') {
+            if (operator === '(' || operator === '√') {
+                outputValue = [...outputValue, '×', operator];
+            } else {
             outputValue = [...outputValue, operator];
+            }
+        } else if (lastOutputValue !== '√') {
+            if (operator === '(' || operator === '√') {
+                outputValue = [...outputValue, operator];
+            }
         }
     }
-    console.log(outputValue);
+    // console.log(outputValue);
     return outputValue;
 }
 
@@ -55,7 +55,7 @@ const setPoint = (outputValue) => {
         if (outputValue[i] === '.') {
             point = false;
             break;
-        } else if (typeof(outputValue[i]) !== 'number') {
+        } else if (typeof outputValue[i]  !== 'number') {
             point = true;
             break;
         }
@@ -71,8 +71,6 @@ const getCorrectOutputValue = (outputValue) =>
             return item;
         }
     })
-
-
 
 
 const setBrackets = (bracket, inputValues) => {

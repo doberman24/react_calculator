@@ -63,6 +63,10 @@ function ButtonsCalc({type, value, special = '', onButton}) {
         onButton(value);
     }
 
+    // const handleKeyClick = () => {
+    //     console.log('ok');
+    // }
+
     return (
         <li onClick={handleClick} className={`button ${className} ${special}`}>
             {value}

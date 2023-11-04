@@ -24,6 +24,7 @@ const GetResult = (outputValue) => {
                 }
                 while ((typeof(outputValue[value]) === 'number'));
                 operator += ')';
+                console.log(operator);
                 break;
             default:
                 operator = outputValue[value];
@@ -31,9 +32,10 @@ const GetResult = (outputValue) => {
         }
         correctOperators = [...correctOperators, operator]
     }
-        const stringResult = correctOperators.join('');
+    const stringResult = correctOperators.join('');
 
     let result = string(evaluate(stringResult)).split('');
+    
     return result;
 }
 
