@@ -33,7 +33,8 @@
     opacity: 70%;
     box-shadow: 0 0 2px #5a5a5a;
   }
-.button:active {
+.button:active,
+.active {
     opacity: 80%;
     font-size: 30px;
     box-shadow: inset 0 0 5px #ffffff;

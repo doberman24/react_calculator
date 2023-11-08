@@ -1,8 +1,5 @@
 import { number } from "mathjs";
 
-document.body.addEventListener('keydown', (event) => console.log(event));
-
-
 const InputData = (outputValue, selectValue) => {
 
     let operator = selectValue;
@@ -27,6 +24,8 @@ const InputData = (outputValue, selectValue) => {
     } else if (typeof selectValue === 'number') {
         if (lastOutputValue === ')' || lastOutputValue === '%') {
             outputValue = [...outputValue, '×', selectValue];
+        } else if (selectValue === 0 && outputValue.length === 0) {
+            selectValue = 0;
         } else {
             outputValue = [...outputValue, selectValue];
         }

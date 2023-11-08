@@ -1,28 +1,7 @@
+import { buttonsList } from './CalcButtons';
 import './InputPan.css'
 
-function InputPan({onValueButton}) {
-    const buttonsList = [
-        {type: 'action', value: 'C'},
-        {type: 'oper', value: '( )'},
-        {type: 'action', value: '√'},
-        {type: 'oper', value: '÷'},
-        {type: 'num', value: 7},
-        {type: 'num', value: 8},
-        {type: 'num', value: 9},
-        {type: 'oper', value: '×'},
-        {type: 'num', value: 4},
-        {type: 'num', value: 5},
-        {type: 'num', value: 6},
-        {type: 'oper', value: '−'},
-        {type: 'num', value: 1},
-        {type: 'num', value: 2},
-        {type: 'num', value: 3},
-        {type: 'oper', value: '+'},
-        {type: 'num', value: 0},
-        {type: 'num', value: '.'},
-        {type: 'action', value: '%'},
-        {type: 'action', value: '='},
-    ]
+function InputPan({onValueButton, onKeyboardButton}) {
 
     const buttonsItem = buttonsList.map((item) => (
         <ButtonsCalc 
@@ -30,6 +9,7 @@ function InputPan({onValueButton}) {
             type={item.type} 
             value={item.value} 
             onButton={onValueButton}
+            onKey={onKeyboardButton}
         />
     ));
 
@@ -42,8 +22,12 @@ function InputPan({onValueButton}) {
     );
 }
 
-function ButtonsCalc({type, value, special = '', onButton}) {
+function ButtonsCalc({type, value, special = '', onButton, onKey}) {
     const className = type === 'num' ? 'num' : type === 'oper' ? 'oper' : 'action';
+    let active = '';
+    if (onKey === value) {
+        active = 'active';
+    }
     switch (value) {
         case 'C':
             special = 'reset';
@@ -63,12 +47,8 @@ function ButtonsCalc({type, value, special = '', onButton}) {
         onButton(value);
     }
 
-    // const handleKeyClick = () => {
-    //     console.log('ok');
-    // }
-
     return (
-        <li onClick={handleClick} className={`button ${className} ${special}`}>
+        <li onClick={handleClick} className={`button ${className} ${special} ${active}`}>
             {value}
         </li>
     );
