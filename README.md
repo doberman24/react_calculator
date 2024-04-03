@@ -1,9 +1,9 @@
-# Memory Game
+# React Calculator
 
 A simple calculator written in React. The code is divided into blocks and placed in different files. A more informative display than in the previous project. It is planned to finalize it.
 
 
-**The application can be launched by following the link http://calculator.samanig.ru.**
+**The application can be launched by following the link http://calculator.lixit.ru.**
 
 ## Available Scripts
 
