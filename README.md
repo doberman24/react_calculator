@@ -1,7 +1,16 @@
 # React Calculator
 
-A simple calculator written in React. The code is divided into blocks and placed in different files. A more informative display than in the previous project. It is planned to finalize it.
+A simple calculator written in React. The code is divided into blocks and placed in different files.
 
+## Functionality
+
+- Basic arithmetic operations
+- User input processing
+
+## Technologies
+
+- React
+- JavaScript
 
 **The application can be launched by following the link http://calculator.lixit.ru.**
 
