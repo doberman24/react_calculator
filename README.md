@@ -1,18 +1,19 @@
 # React Calculator
 
-A simple calculator written in React. The code is divided into blocks and placed in different files.
+Simple calculator web application built with React.
 
-## Functionality
+## Description
 
-- Basic arithmetic operations
-- User input processing
+The application provides basic arithmetic operations and handles user input.
 
 ## Technologies
 
 - React
 - JavaScript
 
-**The application can be launched by following the link http://calculator.lixit.ru.**
+## Website
+
+https://calculator.lixit.ru
 
 ## Available Scripts
 
